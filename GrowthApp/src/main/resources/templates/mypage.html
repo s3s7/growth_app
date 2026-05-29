@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>マイページ - GrowthApp</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/mypage.css}">
+</head>
+<body>
+
+<header>
+    <div class="logo"><a href="/" style="color:white;text-decoration:none;">GrowthApp</a></div>
+    <nav>
+        <a href="/">ホーム</a>
+        <a href="/growth_records">記録一覧</a>
+        <a href="/growth_records/new">記録を作成</a>
+        <a href="/stopwatch">ストップウォッチ</a>
+        <a href="/mypage">マイページ</a>
+        <form th:action="@{/logout}" method="post" style="display:inline;">
+            <button type="submit" class="nav-logout-btn">ログアウト</button>
+        </form>
+    </nav>
+</header>
+
+<main class="mypage-container">
+
+    <div class="profile-section">
+        <div class="avatar">
+            <span th:text="${#strings.substring(username, 0, 1).toUpperCase()}"></span>
+        </div>
+        <div class="profile-info">
+            <h2 th:text="${username}"></h2>
+            <p class="profile-label">GrowthApp ユーザー</p>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-number" th:text="${totalRecords}"></div>
+            <div class="stat-label">総記録数</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" th:text="${totalSeconds >= 3600 ? #numbers.formatDecimal(totalSeconds / 3600.0, 1, 1) + 'h' : (totalSeconds / 60) + 'min'}"></div>
+            <div class="stat-label">合計学習時間</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" th:text="${totalLikes}"></div>
+            <div class="stat-label">獲得いいね数</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" th:text="${categoryCount.size()}"></div>
+            <div class="stat-label">カテゴリ数</div>
+        </div>
+    </div>
+
+    <div class="section-grid">
+
+        <div class="section-card">
+            <h3 class="section-title">カテゴリ別記録数</h3>
+            <div th:if="${categoryCount.isEmpty()}" class="empty-text">記録がありません</div>
+            <ul class="category-list" th:unless="${categoryCount.isEmpty()}">
+                <li th:each="entry : ${categoryCount}" class="category-item">
+                    <span class="category-name" th:text="${entry.key}"></span>
+                    <span class="category-count" th:text="${entry.value} + '件'"></span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="section-card">
+            <h3 class="section-title">最近の記録</h3>
+            <div th:if="${recentRecords.isEmpty()}" class="empty-text">記録がありません</div>
+            <ul class="recent-list" th:unless="${recentRecords.isEmpty()}">
+                <li th:each="record : ${recentRecords}" class="recent-item">
+                    <a th:href="@{/growth_records/{id}(id=${record.id})}" class="recent-title" th:text="${record.title}"></a>
+                    <span class="recent-date" th:text="${#temporals.format(record.date, 'yyyy/MM/dd')}"></span>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="mypage-actions">
+        <a href="/growth_records/new" class="btn">新しい記録を作成</a>
+        <a href="/growth_records" class="btn-secondary-link">記録一覧を見る</a>
+    </div>
+
+</main>
+
+<footer>
+    <p>&copy; 2026 GrowthApp. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

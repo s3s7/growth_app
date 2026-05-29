@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成長記録一覧 - GrowthApp</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/list.css}">
+</head>
+<body>
+
+<header>
+    <div class="logo"><a href="/" style="color:white;text-decoration:none;">GrowthApp</a></div>
+    <nav>
+        <a href="/">ホーム</a>
+        <a href="/growth_records">記録一覧</a>
+        <a href="/growth_records/new">記録を作成</a>
+        <a href="/stopwatch">ストップウォッチ</a>
+        <a sec:authorize="isAuthenticated()" href="/mypage">マイページ</a>
+        <span sec:authorize="isAuthenticated()">
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" class="nav-logout-btn">ログアウト</button>
+            </form>
+        </span>
+        <a sec:authorize="!isAuthenticated()" href="/login">ログイン</a>
+    </nav>
+</header>
+
+<main class="list-container">
+    <div class="list-header">
+        <h2 class="list-title">成長記録一覧</h2>
+        <a href="/growth_records/new" class="btn">+ 新しい記録</a>
+    </div>
+
+    <div class="sort-bar">
+        <span class="sort-label">並び替え：</span>
+        <a th:href="@{/growth_records(sort='date', dir=${currentSort == 'date' && currentDir == 'asc' ? 'desc' : 'asc'})}"
+           th:classappend="${currentSort == 'date'} ? 'sort-active' : ''"
+           class="sort-link">
+            日付
+            <span th:if="${currentSort == 'date'}" th:text="${currentDir == 'asc' ? '↑' : '↓'}"></span>
+        </a>
+        <a th:href="@{/growth_records(sort='title', dir=${currentSort == 'title' && currentDir == 'asc' ? 'desc' : 'asc'})}"
+           th:classappend="${currentSort == 'title'} ? 'sort-active' : ''"
+           class="sort-link">
+            タイトル
+            <span th:if="${currentSort == 'title'}" th:text="${currentDir == 'asc' ? '↑' : '↓'}"></span>
+        </a>
+        <a th:href="@{/growth_records(sort='category', dir=${currentSort == 'category' && currentDir == 'asc' ? 'desc' : 'asc'})}"
+           th:classappend="${currentSort == 'category'} ? 'sort-active' : ''"
+           class="sort-link">
+            カテゴリ
+            <span th:if="${currentSort == 'category'}" th:text="${currentDir == 'asc' ? '↑' : '↓'}"></span>
+        </a>
+        <a th:href="@{/growth_records(sort='createdAt', dir=${currentSort == 'createdAt' && currentDir == 'asc' ? 'desc' : 'asc'})}"
+           th:classappend="${currentSort == 'createdAt'} ? 'sort-active' : ''"
+           class="sort-link">
+            登録日時
+            <span th:if="${currentSort == 'createdAt'}" th:text="${currentDir == 'asc' ? '↑' : '↓'}"></span>
+        </a>
+    </div>
+
+    <div th:if="${growthRecords.isEmpty()}" class="empty-state">
+        <div class="empty-icon">📝</div>
+        <p>まだ記録がありません。</p>
+        <a href="/growth_records/new" class="btn" style="margin-top: 16px;">最初の記録を作成する</a>
+    </div>
+
+    <div th:unless="${growthRecords.isEmpty()}" class="record-list">
+        <div th:each="record : ${growthRecords}" class="record-card">
+            <div class="record-meta">
+                <span class="record-date" th:text="${#temporals.format(record.date, 'yyyy年MM月dd日')}"></span>
+                <span th:if="${record.category}" class="record-category" th:text="${record.category}"></span>
+                <a th:href="@{/growth_records/{id}/edit(id=${record.id})}" class="record-edit-link">編集</a>
+                <form th:action="@{/growth_records/{id}/delete(id=${record.id})}" method="post" class="delete-form"
+                      onsubmit="return confirm('この記録を削除しますか？');">
+                    <button type="submit" class="record-delete-btn">削除</button>
+                </form>
+                <form sec:authorize="isAuthenticated()"
+                      th:action="@{/growth_records/{id}/like(id=${record.id})}" method="post" class="like-form">
+                    <input type="hidden" name="sort" th:value="${currentSort}">
+                    <input type="hidden" name="dir" th:value="${currentDir}">
+                    <button type="submit" class="like-btn">♥ <span th:text="${record.likeCount}"></span></button>
+                </form>
+                <span sec:authorize="!isAuthenticated()" class="like-count-readonly">
+                    ♥ <span th:text="${record.likeCount}"></span>
+                </span>
+            </div>
+            <h3 class="record-title">
+                <a th:href="@{/growth_records/{id}(id=${record.id})}" class="record-title-link" th:text="${record.title}"></a>
+            </h3>
+            <p class="record-content" th:text="${record.content}"></p>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${growthRecord.title} + ' - GrowthApp'">詳細 - GrowthApp</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/show.css}">
+</head>
+<body>
+
+<header>
+    <div class="logo"><a href="/" style="color:white;text-decoration:none;">GrowthApp</a></div>
+    <nav>
+        <a href="/">ホーム</a>
+        <a href="/growth_records">記録一覧</a>
+        <a href="/growth_records/new">記録を作成</a>
+        <a href="/stopwatch">ストップウォッチ</a>
+        <a sec:authorize="isAuthenticated()" href="/mypage">マイページ</a>
+        <span sec:authorize="isAuthenticated()">
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" class="nav-logout-btn">ログアウト</button>
+            </form>
+        </span>
+        <a sec:authorize="!isAuthenticated()" href="/login">ログイン</a>
+    </nav>
+</header>
+
+<main class="show-container">
+    <div class="show-header">
+        <a href="/growth_records" class="back-link">← 一覧に戻る</a>
+        <div class="show-actions">
+            <a th:href="@{/growth_records/{id}/edit(id=${growthRecord.id})}" class="btn-edit">編集</a>
+            <form th:action="@{/growth_records/{id}/delete(id=${growthRecord.id})}" method="post"
+                  onsubmit="return confirm('この記録を削除しますか？');">
+                <button type="submit" class="btn-delete">削除</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="show-card">
+        <div class="show-meta">
+            <span class="show-date" th:text="${#temporals.format(growthRecord.date, 'yyyy年MM月dd日')}"></span>
+            <span th:if="${growthRecord.category}" class="show-category" th:text="${growthRecord.category}"></span>
+        </div>
+
+        <h1 class="show-title" th:text="${growthRecord.title}"></h1>
+
+        <div class="show-content" th:text="${growthRecord.content}"></div>
+
+        <div th:if="${growthRecord.durationSeconds != null}" class="show-duration">
+            計測時間:
+            <span th:with="h=${growthRecord.durationSeconds / 3600}, m=${(growthRecord.durationSeconds % 3600) / 60}, s=${growthRecord.durationSeconds % 60}">
+                <span th:if="${h > 0}" th:text="${h} + '時間'"></span>
+                <span th:if="${m > 0 or h > 0}" th:text="${m} + '分'"></span>
+                <span th:text="${s} + '秒'"></span>
+            </span>
+        </div>
+
+        <div class="show-footer">
+            <form sec:authorize="isAuthenticated()"
+                  th:action="@{/growth_records/{id}/like(id=${growthRecord.id})}" method="post" class="like-form">
+                <button type="submit" class="like-btn">♥ <span th:text="${growthRecord.likeCount}"></span></button>
+            </form>
+            <span sec:authorize="!isAuthenticated()" class="like-count-readonly">
+                ♥ <span th:text="${growthRecord.likeCount}"></span>
+            </span>
+            <span class="show-timestamp">
+                登録：<span th:text="${#temporals.format(growthRecord.createdAt, 'yyyy年MM月dd日 HH:mm')}"></span>
+            </span>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>
