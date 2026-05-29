@@ -1,0 +1,15 @@
+FROM eclipse-temurin:17-jdk
+
+RUN apt-get update && apt-get install -y bash && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY GrowthApp/gradlew GrowthApp/gradlew
+COPY GrowthApp/gradle GrowthApp/gradle
+COPY GrowthApp/build.gradle GrowthApp/build.gradle
+COPY GrowthApp/settings.gradle GrowthApp/settings.gradle
+
+RUN chmod +x GrowthApp/gradlew
+RUN cd GrowthApp && ./gradlew dependencies --no-daemon
+
+COPY GrowthApp/src GrowthApp/src
