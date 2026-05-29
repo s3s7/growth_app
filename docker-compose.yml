@@ -1,0 +1,43 @@
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    restart: always
+    environment:
+      TZ: Asia/Tokyo
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: growthapp_development
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+    ports:
+      - 5434:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d growthapp_development -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: bash -c "cd GrowthApp && ./gradlew bootRun"
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/app
+      - gradle_cache:/root/.gradle
+    environment:
+      TZ: Asia/Tokyo
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/growthapp_development
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_PROFILES_ACTIVE: development
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgresql_data:
+  gradle_cache:
