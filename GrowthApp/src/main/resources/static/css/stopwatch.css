@@ -1,0 +1,158 @@
+.sw-main {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.sw-section {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.sw-save-section {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    padding: 2rem;
+}
+
+.sw-heading {
+    font-size: 1.3rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.sw-display {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 4rem;
+    font-weight: 700;
+    color: #2c3e50;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.sw-controls {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.sw-btn {
+    padding: 0.6rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+}
+
+.sw-btn:active {
+    transform: scale(0.97);
+}
+
+.sw-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.sw-btn-start {
+    background: #27ae60;
+    color: #fff;
+}
+
+.sw-btn-pause {
+    background: #e67e22;
+    color: #fff;
+}
+
+.sw-btn-resume {
+    background: #27ae60;
+    color: #fff;
+}
+
+.sw-btn-lap {
+    background: #2980b9;
+    color: #fff;
+}
+
+.sw-btn-reset {
+    background: #95a5a6;
+    color: #fff;
+}
+
+.sw-laps {
+    margin-top: 1.5rem;
+    text-align: left;
+}
+
+.sw-laps-heading {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+.lap-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.lap-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.4rem 0.75rem;
+    border-bottom: 1px solid #f0f0f0;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+}
+
+.lap-item:first-child {
+    background: #fffbf0;
+}
+
+.lap-num {
+    color: #666;
+    min-width: 2.5rem;
+}
+
+.lap-time {
+    font-weight: 600;
+    color: #2c3e50;
+    flex: 1;
+    text-align: center;
+}
+
+.lap-total {
+    color: #999;
+    font-size: 0.8rem;
+}
+
+.sw-duration-display {
+    padding: 0.5rem 0.75rem;
+    background: #f0f4ff;
+    border: 1px solid #d0d8f0;
+    border-radius: 6px;
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 1rem;
+    display: inline-block;
+}
+
+nav a.active {
+    text-decoration: underline;
+    opacity: 0.85;
+}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>記録完了 - GrowthApp</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/form.css}">
+</head>
+<body>
+
+<header>
+    <div class="logo"><a href="/" style="color:white;text-decoration:none;">GrowthApp</a></div>
+    <nav>
+        <a href="/">ホーム</a>
+        <a href="/growth_records/new">記録を作成</a>
+        <a href="/stopwatch">ストップウォッチ</a>
+    </nav>
+</header>
+
+<main class="form-container" style="text-align:center; padding-top: 60px;">
+    <div style="font-size: 3rem; margin-bottom: 16px;">✅</div>
+    <h2 style="margin-bottom: 12px; color: #2c3e50;">記録を保存しました！</h2>
+    <p style="color: #666; margin-bottom: 32px;">成長記録が正常に保存されました。</p>
+    <a href="/growth_records/new" class="btn">続けて記録する</a>
+    <a href="/" class="btn-secondary" style="margin-left: 12px;">ホームへ戻る</a>
+</main>
+
+</body>
+</html>

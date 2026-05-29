@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrowthApp</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header>
+    <div class="logo">GrowthApp</div>
+    <nav>
+        <a href="/">ホーム</a>
+        <a href="/growth_records">記録一覧</a>
+        <a href="/growth_records/new">記録を作成</a>
+        <a href="/stopwatch">ストップウォッチ</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>あなたの成長をサポートする</h1>
+    <p>目標設定から進捗管理まで、毎日の成長を記録・可視化しましょう。</p>
+    <a href="/growth_records/new" class="btn">記録を作成する</a>
+</section>
+
+<section class="features">
+    <div class="feature-card">
+        <div class="icon">🎯</div>
+        <h3>目標設定</h3>
+        <p>短期・長期の目標を設定し、達成に向けたステップを明確にします。</p>
+    </div>
+    <div class="feature-card">
+        <div class="icon">📈</div>
+        <h3>進捗管理</h3>
+        <p>日々の取り組みを記録し、グラフで成長の軌跡を確認できます。</p>
+    </div>
+    <div class="feature-card">
+        <div class="icon">💬</div>
+        <h3>振り返り</h3>
+        <p>定期的な振り返りで学びを深め、次のアクションにつなげます。</p>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2026 GrowthApp. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
